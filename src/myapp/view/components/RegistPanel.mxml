@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="500" height="300"
+			   title="注册" resize="resizeHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.ResizeEvent;
+			
+			protected function resizeHandler(event:ResizeEvent):void
+			{
+				if(this.parent){
+					this.x = this.parent.width - this.width >> 1;
+					this.y = this.parent.height - this.height >> 1;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<s:Label text="姓名：" x="10" y="14"/><s:TextInput id="userName" x="50" y="10"/>
+	<s:Label text="密码：" x="10" y="68"/><s:TextInput id="psw" x="50" y="60" displayAsPassword="true"/>
+	<s:Button id="sumitBtn" label="注册" x="180" y="230"></s:Button>
+	<s:Button id="loginBtn" label="跳到登录" x="270" y="230"></s:Button>
+</s:TitleWindow>

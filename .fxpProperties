@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fxpProperties abbreviated="false" authoringTool="Flex Builder" compiles="true" parentProject="28e0a014-ea59-457f-af15-adbc590159f8" projectUUID="28e0a014-ea59-457f-af15-adbc590159f8" pureCatalystProject="false" sdkVersion="4.6.0" uuid="2721f0e4-8a9e-439b-b80d-26b7d31a149a" version="15">
+  <projects>
+    <project filename="PureMvc.fxpl" position="2" projectUUID="9e60ef98-ccf5-465e-ade9-46331e0ed003" uuid="2721f0e4-8a9e-439b-b80d-26b7d31a149a"/>
+  </projects>
+  <src/>
+  <swc>
+    <linked location="sdkPlaceHolder" path="sdkPlaceHolder" position="0" uuid="2721f0e4-8a9e-439b-b80d-26b7d31a149a"/>
+    <linked location="F:/workspace/CustomerSys/libs" path="/libs" position="1" uuid="2721f0e4-8a9e-439b-b80d-26b7d31a149a"/>
+  </swc>
+  <misc/>
+  <theme/>
+  <mxmlFormattingPrefs groupAttributesByState="true" maxLineWidth="100" mxmlAlignAttributes="true" mxmlAttributeOrder="id,userLabel,includeIn,excludeFrom,visible,x,y,z,left,right,top,bottom,width,height,minWidth,minHeight,maxWidth,maxHeight,label" mxmlKeepAttributeValuesOrganized="true"/>
+</fxpProperties>
