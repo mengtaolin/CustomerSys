@@ -1,7 +1,8 @@
 package myapp.model
 {
-	import myapp.loader.ConfigFileStream;
-	import myapp.model.vo.ConfigFileLoaderVo;
+	import com.app.interfaces.IProxyParser;
+	
+	import myapp.loader.ConfigFileManager;
 	import myapp.view.LoginOrRegiterMediator;
 	
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
@@ -9,7 +10,6 @@ package myapp.model
 	public class FileProxy extends Proxy
 	{
 		public static const NAME:String = "FileProxy";
-		private var _count:int = 0;
 		private var _appInited:Boolean = false;
 		private var _hasLoginOpen:Boolean = false;
 		
@@ -20,11 +20,17 @@ package myapp.model
 		
 		public function loadFiles():void
 		{
-			this._count = 4;
-			this.load("userInfo.lin", 0, UserProxy.NAME, onInfoComplete);
-			this.load("customerInfo.lin", 1, CustomerProxy.NAME, onInfoComplete);
-			this.load("itemInfo.lin", 2, ItemProxy.NAME, onInfoComplete);
-			this.load("tradeInfo.lin", 3, TradeProxy.NAME, onInfoComplete);
+			var userStr:String = ConfigFileManager.load("userInfo");
+			this.onInfoComplete(userStr, UserProxy.NAME);
+			
+			var customerStr:String = ConfigFileManager.load("customerInfo");
+			this.onInfoComplete(customerStr, CustomerProxy.NAME);
+			
+			var itemInfoStr:String = ConfigFileManager.load("itemInfo");
+			this.onInfoComplete(itemInfoStr, ItemProxy.NAME);
+			
+			var tradeInfoStr:String = ConfigFileManager.load("tradeInfo");
+			this.onInfoComplete(tradeInfoStr, TradeProxy.NAME);
 		}
 		
 		protected function onInfoComplete(data:String, proxyName:String):void
@@ -69,19 +75,6 @@ package myapp.model
 		{
 			this._appInited = value;
 			sendNotification(LoginOrRegiterMediator.START_APP);
-		}
-		
-		private function load(url:String, type:int, proxyName:String, completeFunc:Function):void
-		{
-			var vo:ConfigFileLoaderVo = new ConfigFileLoaderVo();
-			vo.type = type;
-			vo.url = url;
-			vo.proxyName = proxyName;
-			vo.complateFunc = completeFunc;
-			vo.ioErrorFunc = this.onIoError;
-			vo.securityFunc = this.onSecurityError;
-			var loader:ConfigFileStream = new ConfigFileStream();
-			loader.load(vo);
 		}
 	}
 }

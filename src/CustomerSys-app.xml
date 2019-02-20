@@ -49,7 +49,7 @@
 		<content>[此值将由 Flash Builder 在输出 app.xml 中覆盖]</content>
 		
 		<!-- The title of the main window. Optional. -->
-		<!-- <title></title> -->
+		<title>招财猫客户管理系统</title>
 
 		<!-- The type of system chrome to use (either "standard" or "none"). Optional. Default standard. -->
 		<!-- <systemChrome></systemChrome> -->
@@ -64,16 +64,16 @@
 		<!-- <minimizable></minimizable> -->
 
 		<!-- Whether the user can maximize the window. Optional. Default true. -->
-		<!-- <maximizable></maximizable> -->
+		<maximizable>false</maximizable>
 
 		<!-- Whether the user can resize the window. Optional. Default true. -->
-		<!-- <resizable></resizable> -->
+		<resizable>false</resizable>
 
 		<!-- The window's initial width in pixels. Optional. -->
-		<!-- <width></width> -->
+		<width>1000</width>
 
 		<!-- The window's initial height in pixels. Optional. -->
-		<!-- <height></height> -->
+		<height>800</height>
 
 		<!-- The window's initial x position. Optional. -->
 		<!-- <x></x> -->
@@ -82,10 +82,10 @@
 		<!-- <y></y> -->
 
 		<!-- The window's minimum size, specified as a width/height pair in pixels, such as "400 200". Optional. -->
-		<!-- <minSize></minSize> -->
+		<minSize>800 640</minSize>
 
 		<!-- The window's initial maximum size, specified as a width/height pair in pixels, such as "1600 1200". Optional. -->
-		<!-- <maxSize></maxSize> -->
+		<maxSize>1000 800</maxSize>
 
         <!-- The initial aspect ratio of the app when launched (either "portrait" or "landscape"). Optional. Mobile only. Default is the natural orientation of the device -->
 

@@ -1,24 +1,22 @@
 package myapp.model
 {
-	import myapp.model.vo.ItemVo;
+	import com.app.vo.BaseVo;
+	import com.app.vo.ItemVo;
 	
-	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 	
-	public class ItemProxy extends Proxy implements IProxyParser
+	public class ItemProxy extends BaseProxy
 	{
 		public static const NAME:String = "ItemProxy";
 		
-		private var _itemList:Vector.<ItemVo>;
 		public function ItemProxy(data:Object=null)
 		{
 			super(NAME, data);
-			this._itemList = new Vector.<ItemVo>();
+			this._configName = "itemInfo";
 		}
 		
-		public function parseInfos(data:String):void
+		override protected function newJsonData():BaseVo
 		{
-			trace(data);
-			return;
+			return new ItemVo();
 		}
 	}
 }

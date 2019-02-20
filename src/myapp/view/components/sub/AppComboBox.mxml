@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="140" height="23">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.app.vo.TypeVo;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.components.TextInput;
+			
+			import myapp.events.AppEvent;
+			
+			private var _vo:TypeVo;
+			
+			public function set dataProvider(dataList:ArrayCollection):void
+			{
+				this.box.dataProvider = dataList;
+			}
+			
+			public function get dataList():Array
+			{
+				var list:ArrayCollection = this.box.dataProvider as ArrayCollection;
+				return list.source;
+			}
+			
+			private function get arrayCollection():ArrayCollection
+			{
+				return this.box.dataProvider as ArrayCollection;
+			}
+			
+			protected function comboBoxcreationCompleteHandler(event:FlexEvent):void
+			{
+				this.box.textInput.editable = false;
+			}
+			
+			protected function addTypeClickHandler(event:MouseEvent):void
+			{
+				if(this.stage){
+					this.textInput.editable = true;
+					this.stage.focus = this.textInput;
+					this._vo = new TypeVo();
+					this._vo.id = dataList.length + "";
+					this._vo.value = dataList.length;
+					this.dataList.push(_vo);
+					arrayCollection.refresh();
+					this.box.selectedIndex = this.dataList.length - 1;
+				}
+			}
+			
+			public function get selectedIndex():int
+			{
+				return this.box.selectedIndex;
+			}
+			
+			public function set selectedIndex(value:int):void
+			{
+				this.box.selectedIndex = value;
+			}
+			
+			public function get textInput():TextInput
+			{
+				return this.box.textInput;
+			}
+			
+			protected function onBoxFocusOut(event:FocusEvent):void
+			{
+				if(this._vo == null || this._vo.name == null || this._vo.name.length == 0)
+				{
+					return;
+				}
+				this.dispatchEvent(new AppEvent(AppEvent.ADD_TYPE, this._vo));
+			}
+			
+		]]>
+	</fx:Script>
+	<s:ComboBox id="box" width="100" labelField="name" selectedIndex="0" creationComplete="comboBoxcreationCompleteHandler(event)" focusOut="onBoxFocusOut(event)">
+	</s:ComboBox>
+	<s:Button id="addTypeBtn" label="+" x="110" y="1" width="30" toolTip="添加类型" click="addTypeClickHandler(event)">
+	</s:Button>
+</s:Group>

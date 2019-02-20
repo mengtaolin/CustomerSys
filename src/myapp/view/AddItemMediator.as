@@ -1,11 +1,13 @@
 package myapp.view
 {
+	import com.app.global.AppData;
+	
 	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
 	
 	import spark.components.BorderContainer;
 	
-	import myapp.view.components.ItemRecordPanel;
+	import myapp.view.components.AddItemPanel;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -15,15 +17,15 @@ package myapp.view
 	 * @author linmentao
 	 * 
 	 */
-	public class ItemMediator extends Mediator
+	public class AddItemMediator extends Mediator
 	{
 		public static const NAME:String = "ItemMediator";
 		public static const OPEN_ITEM_PANEL:String = "open_item_panel";
 		
 		
-		private var _panel:ItemRecordPanel;
+		private var _panel:AddItemPanel;
 		
-		public function ItemMediator(viewComponent:Object=null)
+		public function AddItemMediator(viewComponent:Object=null)
 		{
 			super(NAME, viewComponent);
 		}
@@ -47,8 +49,12 @@ package myapp.view
 		
 		private function openPanel():void
 		{
+			if(AppData.user == null){
+				sendNotification(LoginOrRegiterMediator.OPEN_LOGIN_PANEL);
+				return;
+			}
 			if(this._panel && this._panel.parent)return;
-			this._panel = PopUpManager.createPopUp(mainCanvas, ItemRecordPanel, true) as ItemRecordPanel;
+			this._panel = PopUpManager.createPopUp(mainCanvas, AddItemPanel, true) as AddItemPanel;
 			PopUpManager.centerPopUp(_panel);
 			initEvents();
 		}
@@ -60,7 +66,14 @@ package myapp.view
 		
 		protected function onClose(event:CloseEvent):void
 		{
-			
+			this.removeLoginEvents();
+			PopUpManager.removePopUp(_panel);
+			_panel = null;
+		}
+		
+		private function removeLoginEvents():void
+		{
+			this._panel.removeEventListener(CloseEvent.CLOSE, onClose);
 		}		
 		
 		private function get mainCanvas():BorderContainer

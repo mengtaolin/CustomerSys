@@ -1,24 +1,21 @@
 package myapp.model
 {
-	import myapp.model.vo.CustomerVo;
+	import com.app.vo.BaseVo;
+	import com.app.vo.CustomerVo;
 	
-	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 	
-	public class CustomerProxy extends Proxy implements IProxyParser
+	public class CustomerProxy extends BaseProxy
 	{
 		public static const NAME:String = "CustomerProxy";
 		
-		private var _customerList:Vector.<CustomerVo>;
 		public function CustomerProxy(data:Object=null)
 		{
 			super(NAME, data);
-			this._customerList = new Vector.<CustomerVo>();
+			this._configName = "customerInfo";
 		}
-		
-		public function parseInfos(data:String):void
+		override protected function newJsonData():BaseVo
 		{
-			trace(data);
-			return;
+			return new CustomerVo();
 		}
 	}
 }

@@ -4,24 +4,22 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="500" height="300"
 			   title="登录"
 			   keyUp="onKeyUp(event)">
+	<!-- 登录界面 -->
 	<fx:Script>
 		<![CDATA[
-			
 			protected function onKeyUp(event:KeyboardEvent):void
 			{
-				// TODO Auto-generated method stub
 				if(event.keyCode == Keyboard.ENTER){
 					dispatchEvent(new Event("enter_key"));
 				}
 			}
-			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
-	<s:Label text="姓名：" x="130" y="64"/><s:TextInput id="userName" x="170" y="60" width="180"/>
-	<s:Label text="密码：" x="130" y="118"/><s:TextInput id="psw" x="170" y="110" width="180" displayAsPassword="true"/>
+	<s:Label text="姓名：" x="130" y="65"/><s:TextInput id="userName" x="170" y="60" width="180"/>
+	<s:Label text="密码：" x="130" y="115"/><s:TextInput id="psw" x="170" y="110" width="180" displayAsPassword="true"/>
 	<s:Button id="sumitBtn" label="登录" x="180" y="230"></s:Button>
 	<s:Button id="registBtn" label="跳到注册" x="270" y="230"></s:Button>
 </s:TitleWindow>

@@ -2,26 +2,55 @@
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="500" height="300"
-			   title="注册" resize="resizeHandler(event)">
+			   title="注册" initialize="initializeHandler(event)">
+	<!-- 注册界面 -->
 	<fx:Script>
 		<![CDATA[
-			import mx.events.ResizeEvent;
+			import com.app.global.UserType;
 			
-			protected function resizeHandler(event:ResizeEvent):void
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			public var _typeList:ArrayCollection = new ArrayCollection();
+			
+			protected function initializeHandler(event:FlexEvent):void
 			{
-				if(this.parent){
-					this.x = this.parent.width - this.width >> 1;
-					this.y = this.parent.height - this.height >> 1;
-				}
+				var list:Array = [];
+				list.push({label:UserType.ADMIN_ZH, value:UserType.ADMIN},
+					{label:UserType.USER_ZH, value:UserType.USER},
+					{label:UserType.RECODER_ZH, value:UserType.RECODER},
+					{label:UserType.WATCHER_ZH, value:UserType.WATCHER});
+				_typeList.source = list;
 			}
+			
+			protected function comboBoxcreationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				this.userType.textInput.editable = false;
+			}
+			
 			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<mx:StringValidator source="{userName}" property="text" required="true" requiredFieldError="请输入2-10位长度用户姓名" 
+							maxLength="10" minLength="2"/>
+		<mx:StringValidator source="{psw}" property="text" required="true" requiredFieldError="请输入最少6位密码"
+							minLength="6"/>
+		<mx:StringValidator source="{phoneNo}" property="text" required="true" requiredFieldError="请输入11位手机号码"
+							maxLength="10" minLength="11"/>
 	</fx:Declarations>
-	<s:Label text="姓名：" x="10" y="14"/><s:TextInput id="userName" x="50" y="10"/>
-	<s:Label text="密码：" x="10" y="68"/><s:TextInput id="psw" x="50" y="60" displayAsPassword="true"/>
+	<s:Label text="姓名：" x="60" y="45"/><s:TextInput id="userName" x="100" y="40" width="100"/>
+	<s:Label text="密码：" x="60" y="85"/><s:TextInput id="psw" x="100" y="80" displayAsPassword="true" width="100"/>
+	<s:Label text="电话：" x="60" y="125"/><s:TextInput id="phoneNo" x="100" y="120" restrict="?\0-9\" width="100"/>
+	<s:Label text="类型：" x="60" y="165"/>
+	<s:ComboBox id="userType" dataProvider="{_typeList}" x="100" y="160" width="100" labelField="label"
+				selectedIndex="1" creationComplete="comboBoxcreationCompleteHandler(event)">
+	</s:ComboBox>
+	<s:Image id="userImg" width="150" height="300" x="300" y="-35" scaleMode="letterbox"
+			 source="@Embed(source='images/default/header.png')" buttonMode="true">
+	</s:Image>
 	<s:Button id="sumitBtn" label="注册" x="180" y="230"></s:Button>
 	<s:Button id="loginBtn" label="跳到登录" x="270" y="230"></s:Button>
 </s:TitleWindow>

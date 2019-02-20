@@ -1,14 +1,16 @@
 package myapp.controller
 {
 	import myapp.model.CustomerProxy;
+	import myapp.model.CustomerTypeProxy;
 	import myapp.model.FileProxy;
 	import myapp.model.ItemProxy;
 	import myapp.model.TradeProxy;
 	import myapp.model.UserProxy;
-	import myapp.view.ItemMediator;
+	import myapp.view.AddCustomerMediator;
+	import myapp.view.AddItemMediator;
+	import myapp.view.AddTradeMediator;
 	import myapp.view.LoginOrRegiterMediator;
 	import myapp.view.MenuMediator;
-	import myapp.view.NewCustomerMediator;
 	
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
@@ -29,12 +31,14 @@ package myapp.controller
 			this.facade.registerProxy(new FileProxy());
 			this.facade.registerProxy(new UserProxy());
 			this.facade.registerProxy(new CustomerProxy());
+			this.facade.registerProxy(new CustomerTypeProxy());
 			this.facade.registerProxy(new ItemProxy());
 			this.facade.registerProxy(new TradeProxy());
 			this.facade.registerMediator(new MenuMediator(app));
-			this.facade.registerMediator(new NewCustomerMediator(app));
+			this.facade.registerMediator(new AddCustomerMediator(app));
 			this.facade.registerMediator(new LoginOrRegiterMediator(app));
-			this.facade.registerMediator(new ItemMediator(app));
+			this.facade.registerMediator(new AddItemMediator(app));
+			this.facade.registerMediator(new AddTradeMediator(app));
 			
 			this.initApp();
 		}

@@ -3,7 +3,8 @@
 					   xmlns:s="library://ns.adobe.com/flex/spark" 
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   creationComplete="init()"
-					   windowComplete="applicationCompleteHandler(event)">
+					   windowComplete="applicationCompleteHandler(event)"
+					   keyUp="printkeyUpHandler(event)">
 	<fx:Style source="MainView.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -11,6 +12,7 @@
 			
 			import myapp.ApplicationFacade;
 			import myapp.model.FileProxy;
+			import myapp.view.MenuMediator;
 			private var facade:ApplicationFacade = ApplicationFacade.instance;
 			
 			private function init():void
@@ -31,6 +33,13 @@
 				fileProxy.appInit = true;
 			}
 			
+			protected function printkeyUpHandler(event:KeyboardEvent):void
+			{
+				if(event.ctrlKey && event.keyCode == Keyboard.P){
+					facade.sendNotification(MenuMediator.PRINT);
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -43,6 +52,7 @@
 				<menuitem label="添加商品" name="addItem"/>
 				<menuitem label="添加客户" name="addCustomer"/>
 				<menuitem label="添加交易" name="addTrade"/>
+				<menuitem label="打印" name="print"/>
 				<menuitem type="separator" />
 				<menuitem label="退出" name="exit"/>
 			</menu>

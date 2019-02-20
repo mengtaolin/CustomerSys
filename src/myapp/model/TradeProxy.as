@@ -1,24 +1,21 @@
 package myapp.model
 {
-	import myapp.model.vo.TradeVo;
-	
-	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
-	
-	public class TradeProxy extends Proxy implements IProxyParser
+	import com.app.vo.BaseVo;
+	import com.app.vo.TradeVo;
+
+	public class TradeProxy extends BaseProxy
 	{
 		public static const NAME:String = "TradeProxy";
 		
-		private var _tradeList:Vector.<TradeVo>;
 		public function TradeProxy(data:Object=null)
 		{
 			super(NAME, data);
-			this._tradeList = new Vector.<TradeVo>();
+			this._configName = "tradeInfo";
 		}
 		
-		public function parseInfos(data:String):void
+		override protected function newJsonData():BaseVo
 		{
-			trace(data);
-			return;
+			return new TradeVo();
 		}
 	}
 }

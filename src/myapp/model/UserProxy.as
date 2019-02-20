@@ -1,109 +1,46 @@
 package myapp.model
 {
-	import myapp.model.vo.User;
+	import com.adobe.crypto.MD5;
+	import com.app.global.RegistResultType;
+	import com.app.vo.BaseVo;
+	import com.app.vo.User;
 	
-	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+	import myapp.loader.ConfigFileManager;
 	
-	public class UserProxy extends Proxy implements IProxyParser
+	public class UserProxy extends BaseProxy
 	{
 		public static const NAME:String = "UserProxy";
-		private var _userList:Vector.<User>;
+		private var _root:User;
 		
 		public function UserProxy(data:Object=null)
 		{
 			super(NAME, data);
-			_userList = new Vector.<User>();
+			this._configName = "userInfo";
 		}
 		
-		public function parseInfos(data:String):void
+		override public function parseInfos(data:String):void
 		{
-			trace(data);
-			return;
-			var root:User = this.createRootUser();
-			this._userList.push(root);
-			if(data == null || data.length == 0){
-				return;
-			}
-			var json:Object = JSON.parse(data);
-			var list:Array = json._userList;
-			var len:int = list.length;
-			for(var i:int = 0;i< len;i ++){
-				var user:User = new User();
-				user.parseJson(list[i]);
-				this._userList.push(user);
-			}
+			_root = this.createRootUser();
+			super.parseInfos(data);
 		}
 		
-		public function addUser(value:User):Boolean
+		override public function addData(value:BaseVo):int
 		{
-			if(this.findUser(value.id) == null){
-				this._userList.push(value);
-				this.saveUsers();
-				return true;
-			}
-			return false;
-		}
-		
-		private function saveUsers():void
-		{
-			var jsonStr:String = JSON.stringify(this._userList);
-			
-		}
-		
-		public function deleteUser(id:String):Boolean
-		{
-			var user:User = this.findUser(id);
-			if(user){
-				var index:int = this._userList.indexOf(user);
-				if(index != -1){
-					this._userList.splice(index, 1);
-					return true;
+			if(this.findData(value.id) == null){
+				if(this.findDataByName(value.name) != null){
+					return RegistResultType.HASUSER_ERROR;
 				}
-				else{
-					return false;
-				}
+				this._dataList.push(value);
+				var isSuccess:Boolean = ConfigFileManager.save("userInfo", _dataList);
+				return RegistResultType.SUCCESS;
 			}
-			return false;
-		}
-		
-		public function modifierUser(value:User):Boolean
-		{
-			var user:User = this.findUser(value.id);
-			if(user){
-				user.cloneFromeOther(value);
-				return true;
-			}
-			return false;
-		}
-		
-		public function findUser(id:String):User
-		{
-			var len:int = _userList.length;
-			for(var i:int = 0;i < len;i ++){
-				var user:User = _userList[i];
-				if(user.id == id){
-					return user;
-				}
-			}
-			return null;
-		}
-		
-		public function findUserByName(userName:String):User
-		{
-			var len:int = _userList.length;
-			for(var i:int = 0;i < len;i ++){
-				var user:User = _userList[i];
-				if(user.name == userName){
-					return user;
-				}
-			}
-			return null;
+			return RegistResultType.OTHER_ERROR;
 		}
 		
 		public function login(userName:String, psw:String):User
 		{
-//			if(this.rootCheck(userName, psw))return true;
-			var user:User = this.findUserByName(userName);
+			if(this.rootCheck(userName, psw))return _root;
+			var user:User = this.findDataByName(userName) as User;
 			if(user){
 				if(user.psw == psw){
 					return user;
@@ -114,22 +51,22 @@ package myapp.model
 		
 		private function rootCheck(userName:String, psw:String):Boolean
 		{
-			return userName == "root" && psw == "httpslin";
-		}
-		
-		public function get userList():Vector.<User>
-		{
-			return this._userList;
+			return userName == _root.name && psw == _root.psw;
 		}
 		
 		public function createRootUser():User
 		{
 			var root:User = new User();
 			root.name = "root";
-			root.psw = "httpslin";
+			root.psw = MD5.hash("httpslin");
 			root.authority = "1000";
 			root.type = 1000;
 			return root;
+		}
+		
+		override protected function newJsonData():BaseVo
+		{
+			return new User();
 		}
 	}
 }
